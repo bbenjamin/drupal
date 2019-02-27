@@ -148,8 +148,7 @@ class ChooseBlockController implements ContainerInjectionInterface {
     ];
 
     $block_categories['#type'] = 'container';
-    $block_categories['#attributes']['class'][] = 'layout-builder-block-categories';
-    $block_categories['#attributes']['class'][] = 'js-layout-builder-categories';
+    $block_categories['#attributes']['class'] = ['layout-builder-block-categories', 'js-layout-builder-categories'];
 
     // @todo Explicitly cast delta to an integer, remove this in
     //   https://www.drupal.org/project/drupal/issues/2984509.
@@ -164,6 +163,8 @@ class ChooseBlockController implements ContainerInjectionInterface {
     foreach ($grouped_definitions as $category => $blocks) {
       $block_categories[$category] = $this->buildCategory($section_storage, $delta, $region, $blocks, $category);
       $block_categories[$category]['#attributes']['class'][] = 'js-layout-builder-category';
+      $block_categories[$category]['#attributes']['class'][] = 'layout-builder-block-categories__category';
+      $block_categories[$category]['#attributes']['data-layout-builder-block-categories'] = NULL;
     }
     $build['block_categories'] = $block_categories;
     return $build;
@@ -196,6 +197,9 @@ class ChooseBlockController implements ContainerInjectionInterface {
     $category_build = [
       '#type' => 'details',
       '#title' => $category,
+      '#summary_attributes' => [
+        'class' => ['layout-builder-block-categories__summary'],
+      ],
     ];
     if ($is_field_category) {
       // Separate blocks in the field categories into primary and secondary
@@ -238,6 +242,9 @@ class ChooseBlockController implements ContainerInjectionInterface {
             'links' => $secondary_block_links,
             '#attributes' => [
               'class' => ['layout-builder-secondary-blocks'],
+            ],
+            '#summary_attributes' => [
+              'class' => ['layout-builder-secondary-blocks__summary'],
             ],
           ];
         }
