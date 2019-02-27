@@ -12,6 +12,8 @@ use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
  */
 class BlockFilterTest extends WebDriverTestBase {
 
+  use LayoutBuilderTestTrait;
+
   /**
    * {@inheritdoc}
    */
@@ -56,6 +58,7 @@ class BlockFilterTest extends WebDriverTestBase {
     $assert_session->linkExists('Add Block');
     $this->clickLink('Add Block');
     $assert_session->assertWaitOnAjaxRequest();
+    $this->openAllBlockCategories();
 
     // Get all blocks, for assertions later.
     $blocks = $page->findAll('css', '.js-layout-builder-block-link');

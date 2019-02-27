@@ -9,6 +9,7 @@ use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Plugin\PluginBase;
 
 /**
  * Implements hook_plugin_filter_TYPE__CONSUMER_alter().
@@ -34,6 +35,17 @@ function layout_builder_test_plugin_filter_block__layout_builder_alter(array &$d
     if (isset($parts[1]) && in_array($parts[1], $disallowed_fields, TRUE)) {
       // Unset any field blocks that match our predefined list.
       unset($definitions[$plugin_id]);
+    }
+  }
+
+  if (\Drupal::state()->get('remove_extra_blocks')) {
+    foreach ($definitions as $plugin_id => $definition) {
+      // Extra Field block IDs are in the form
+      // 'extra_field_block:{entity}:{bundle}:{name}'.
+      list($block_type) = explode(PluginBase::DERIVATIVE_SEPARATOR, $plugin_id);
+      if ($block_type === 'extra_field_block') {
+        unset($definitions[$plugin_id]);
+      }
     }
   }
 }

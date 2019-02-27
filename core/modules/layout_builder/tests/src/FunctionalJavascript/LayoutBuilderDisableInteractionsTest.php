@@ -18,6 +18,7 @@ use WebDriver\Exception\UnknownError;
 class LayoutBuilderDisableInteractionsTest extends WebDriverTestBase {
 
   use ContextualLinkClickTrait;
+  use LayoutBuilderTestTrait;
 
   /**
    * {@inheritdoc}
@@ -150,7 +151,7 @@ class LayoutBuilderDisableInteractionsTest extends WebDriverTestBase {
     $this->clickLink('Add Block');
     $this->assertNotEmpty($assert_session->waitForElementVisible('css', '#drupal-off-canvas'));
     $assert_session->assertWaitOnAjaxRequest();
-
+    $this->openAllBlockCategories();
     $assert_session->linkExists($block_link_text);
     $this->clickLink($block_link_text);
 

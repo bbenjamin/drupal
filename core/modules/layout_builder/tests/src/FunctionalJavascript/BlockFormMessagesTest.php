@@ -15,6 +15,7 @@ use WebDriver\Exception\UnknownError;
 class BlockFormMessagesTest extends WebDriverTestBase {
 
   use ContextualLinkClickTrait;
+  use LayoutBuilderTestTrait;
 
   /**
    * {@inheritdoc}
@@ -60,7 +61,8 @@ class BlockFormMessagesTest extends WebDriverTestBase {
     $this->clickElementWhenClickable($page->findLink('Manage layout'));
     $assert_session->addressEquals($field_ui_prefix . '/display/default/layout');
     $this->clickElementWhenClickable($page->findLink('Add Block'));
-    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '#drupal-off-canvas .block-categories'));
+    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '#drupal-off-canvas .layout-builder-block-categories'));
+    $this->clickBlockCategory('System');
     $this->clickElementWhenClickable($page->findLink('Powered by Drupal'));
     $this->assertNotEmpty($assert_session->waitForElementVisible('css', '#drupal-off-canvas [name="settings[label]"]'));
     $page->findField('Title')->setValue('');

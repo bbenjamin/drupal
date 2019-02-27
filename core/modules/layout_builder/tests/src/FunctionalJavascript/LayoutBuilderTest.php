@@ -16,6 +16,7 @@ use Drupal\Tests\contextual\FunctionalJavascript\ContextualLinkClickTrait;
 class LayoutBuilderTest extends WebDriverTestBase {
 
   use ContextualLinkClickTrait;
+  use LayoutBuilderTestTrait;
 
   /**
    * {@inheritdoc}
@@ -464,6 +465,7 @@ class LayoutBuilderTest extends WebDriverTestBase {
     $assert_session->linkExists('Add Block');
     $this->clickLink('Add Block');
     $assert_session->assertWaitOnAjaxRequest();
+    $this->openAllBlockCategories();
     $this->assertNotEmpty($assert_session->waitForElementVisible('named', ['link', $block_title]));
     $this->clickLink($block_title);
     $this->assertOffCanvasFormAfterWait('layout_builder_add_block');
